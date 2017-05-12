@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+	xmlns:tns="http://robert/projekt" 
+	targetNamespace="http://robert/projekt">
+	<wsdl:types>
+		<xs:schema  targetNamespace="http://robert/projekt" elementFormDefault="qualified">
+			
+			<xs:complexType name ="carType">
+				<xs:sequence>
+					<xs:element name="carId" type="xs:integer"/>
+					<xs:element name="make" type="xs:string"/>
+					<xs:element name="model" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name ="parkingLotCarType">
+				<xs:sequence>
+					<xs:element name="car" type="tns:carType"/>
+					<xs:element name="parkingLot" type="tns:parkingLotType"/>
+                                        
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name ="parkingLotCarListType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="parkingLotCar" type="tns:parkingLotCarType"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name ="parkingLotType">
+				<xs:sequence>
+					<xs:element name="lotId" type="xs:integer"/>
+					<xs:element name="capacity" type="xs:double"/>
+					<xs:element name="address" type="xs:string"/>	
+					<xs:element name="parkingLotCarList" type="tns:parkingLotCarListType"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:element name="getCarRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="carId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCarResponse" type="tns:carType"/>
+			
+			<xs:element name="addCarRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="make" type="xs:string"/>
+						<xs:element name="model" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addCarResponse" type="tns:carType"/>
+			
+			<xs:element name="getCarListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+                                                
+                                                
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCarListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="car" type="tns:carType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getParkingLotRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="lotId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getParkingLotResponse" type="tns:parkingLotType"/>
+			<xs:element name="addParkingLotRequest">
+				<xs:complexType>
+					<xs:sequence>
+					<xs:element name="token" type="xs:string"/>
+					
+					<xs:element name="capacity" type="xs:double"/>
+					<xs:element name="address" type="xs:string"/>	
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addParkingLotResponse" type="tns:parkingLotType"/>
+			<xs:element name="getParkingLotListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element minOccurs="0" name="hasRelatedCars">
+						  <xs:simpleType>
+							<xs:restriction base="xs:string">
+							  <xs:pattern value="jah|ei"/>
+							</xs:restriction>
+						  </xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getParkingLotListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="parkingLot" type="tns:parkingLotType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getParkingLotCarListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="lotId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getParkingLotCarListResponse" type="tns:parkingLotCarListType"/>
+			
+			<xs:element name="addParkingLotCarRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="lotId" type="xs:integer"/>
+						<xs:element name="carId" type="xs:integer"/>
+						
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addParkingLotCarResponse" type="tns:parkingLotCarType"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getCarMessageRequest">
+		<wsdl:part name="parameter" element="tns:getCarRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getCarMessageResponse">
+		<wsdl:part name="parameter" element="tns:getCarResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addCarMessageRequest">
+		<wsdl:part name="parameter" element="tns:addCarRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addCarMessageResponse">
+		<wsdl:part name="parameter" element="tns:addCarResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getCarListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getCarListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getCarListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getCarListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotMessageRequest">
+		<wsdl:part name="parameter" element="tns:getParkingLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotMessageResponse">
+		<wsdl:part name="parameter" element="tns:getParkingLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addParkingLotMessageRequest">
+		<wsdl:part name="parameter" element="tns:addParkingLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addParkingLotMessageResponse">
+		<wsdl:part name="parameter" element="tns:addParkingLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getParkingLotListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getParkingLotListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotCarListMessageRequest">
+		<wsdl:part name="parameter" element="tns:getParkingLotCarListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getParkingLotCarListMessageResponse">
+		<wsdl:part name="parameter" element="tns:getParkingLotCarListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addParkingLotCarMessageRequest">
+		<wsdl:part name="parameter" element="tns:addParkingLotCarRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addParkingLotCarMessageResponse">
+		<wsdl:part name="parameter" element="tns:addParkingLotCarResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="ParkingLotPortType">
+		<wsdl:operation name="getCar">
+			<wsdl:input message="tns:getCarMessageRequest"/>
+			<wsdl:output message="tns:getCarMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addCar">
+			<wsdl:input message="tns:addCarMessageRequest"/>
+			<wsdl:output message="tns:addCarMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getCarList">
+			<wsdl:input message="tns:getCarListMessageRequest"/>
+			<wsdl:output message="tns:getCarListMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getParkingLot">
+			<wsdl:input message="tns:getParkingLotMessageRequest"/>
+			<wsdl:output message="tns:getParkingLotMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addParkingLot">
+			<wsdl:input message="tns:addParkingLotMessageRequest"/>
+			<wsdl:output message="tns:addParkingLotMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getParkingLotList">
+			<wsdl:input message="tns:getParkingLotListMessageRequest"/>
+			<wsdl:output message="tns:getParkingLotListMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getParkingLotCarList">
+			<wsdl:input message="tns:getParkingLotCarListMessageRequest"/>
+			<wsdl:output message="tns:getParkingLotCarListMessageResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="addParkingLotCar">
+			<wsdl:input message="tns:addParkingLotCarMessageRequest"/>
+			<wsdl:output message="tns:addParkingLotCarMessageResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ParkingLotBinding" type="tns:ParkingLotPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getCar">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addCar">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCarList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getParkingLot">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addParkingLot">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getParkingLotList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getParkingLotCarList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addParkingLotCar">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ParkingLotService">
+		<wsdl:port name="ParkingLotPort" binding="tns:ParkingLotBinding">
+			<soap:address location="Empty"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
